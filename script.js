@@ -78,7 +78,7 @@ $('#mosaic').innerHTML = MOSAIC.map((item, i) => {
   const src = (isObj && item.src) ? item.src : (typeof item === 'string' && (item.includes('/') || item.includes('.')) ? item : `assets/bridal-${i + 1}.webp`);
   const label = (isObj && item.label) ? item.label : (typeof item === 'string' && !item.includes('/') ? item : 'Bridal look');
   const alt = (isObj && item.alt) || `${label} by Unique Beauty Studio`;
-  return `<figure class="tile"><img src="${src}" alt="${alt}" ${i ? 'loading="lazy"' : 'fetchpriority="high"'} onerror="this.closest('.tile')?.remove()"><figcaption>${label}</figcaption></figure>`;
+  return `<figure class="tile"><img src="${src}" alt="${alt}" loading="eager" decoding="async" onerror="this.closest('.tile')?.remove()"><figcaption>${label}</figcaption></figure>`;
 }).join('');
 const card = ([t, d], msg) => `<article class="card"><h3>${t}</h3><p>${d}</p><a class="link" target="_blank" rel="noopener" href="${waUrl(msg(t))}">Ask on WhatsApp</a></article>`;
 $('#glowcards').innerHTML = GLOW.map(g => card(g, t => `Hi, I'd like to know about ${t} before my event.`)).join('');
