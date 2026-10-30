@@ -8,8 +8,51 @@ const CONFIG = {
   mapUrl: 'https://www.google.com/maps/place/Unique+Beauty+Studio+%7C+Beauty+Parlour+%26+Make-up+Artist/@17.2905345,74.1859719,263m/data=!3m1!1e3!4m7!3m6!1s0x3bc1834888950d1d:0x9b63b8ed6498c92!4b1!8m2!3d17.290522!4d74.1866026!16s%2Fg%2F11whq1yhh1?entry=ttu&g_ep=EgoyMDI2MTAyNy4wIKXMDSoASAFQAw%3D%3D',
   reviewsUrl: 'https://www.google.com/maps/place/Unique+Beauty+Studio+%7C+Beauty+Parlour+%26+Make-up+Artist/@17.2905345,74.1859719,263m/data=!3m1!1e3!4m7!3m6!1s0x3bc1834888950d1d:0x9b63b8ed6498c92!4b1!8m2!3d17.290522!4d74.1866026!16s%2Fg%2F11whq1yhh1?entry=ttu&g_ep=EgoyMDI2MTAyNy4wIKXMDSoASAFQAw%3D%3D'
 };
-/* Paste REAL Google reviews, word for word: {name:'Full Name', url:'profile link (optional)', stars:5 (optional), text:'...'} */
-const REVIEWS = [];
+/* Paste REAL Google reviews, word for word: {name:'Full Name', time:'6 months ago', url:'profile link (optional)', stars:5, text:'...'} */
+const REVIEWS = [
+  {
+    name: 'priti sonawane',
+    time: '6 months ago',
+    stars: 5,
+    text: 'It was nice experience. I love the makeup and the way she treats the person. 🙏 …'
+  },
+  {
+    name: 'Rutuja Pawar',
+    time: '10 months ago',
+    stars: 5,
+    text: 'The makeup artist did a very good job. She has a helpful nature, is professional and clearly experienced and we were very very happy with the result.'
+  },
+  {
+    name: 'shobha jagdale',
+    time: 'a year ago',
+    stars: 5,
+    text: "Thank you so much Chandarani for making all of us look so beautiful. Your style is so classic and elegant and I couldn't be happier with how we all looked on the day."
+  },
+  {
+    name: 'Sanika Ghadage',
+    time: '2 months ago',
+    stars: 5,
+    text: 'Good and elegent work & most imp hygiene is good plz visit'
+  },
+  {
+    name: 'vandana Pedhekar',
+    time: '9 months ago',
+    stars: 5,
+    text: 'Professional & experienced artist in the city. Had Great time working with her. Best at makeup as well hairstyling.'
+  },
+  {
+    name: 'Prajakta Kale',
+    time: '4 months ago',
+    stars: 5,
+    text: 'Excellent service, must visit for relaxation.  Nice & courteous owner,  keep up the good work.....¡'
+  },
+  {
+    name: 'Kalyani Ghadage',
+    time: '4 months ago',
+    stars: 5,
+    text: 'Its an excellent Parlour have gone through. Treatment over there is a pleasure. All prouducts are excellent. All staff is good. Special thanks to Chanda mam.'
+  }
+];
 const REVIEW_PAUSE_MS = 4500; // how long each review stays still
 /* Services as given by the owner. Confirm before publishing. */
 const GLOW = [['HydraFacial', 'Machine-assisted facial for clean, fresh-looking skin.'], ['Deep cleanup', 'A thorough cleanup to prepare your skin.'], ['D-Tan', 'Helps with tan removal before events.']];
@@ -70,7 +113,19 @@ const track = $('#rev');
 track.innerHTML = REVIEWS.map((r, i) => {
   const s = Math.min(5, Math.max(0, Math.round(+r.stars || 0)));
   const name = r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.name)}</a>` : esc(r.name);
-  return `<article class="rev card" role="group" aria-roledescription="slide" aria-label="Review ${i + 1} of ${REVIEWS.length}"><header><span class="av" aria-hidden="true">${esc(r.name.trim().charAt(0).toUpperCase())}</span><div><b>${name}</b><small>Google review</small></div></header>${s ? `<div class="stars" role="img" aria-label="${s} out of 5 stars">${'★'.repeat(s)}${'☆'.repeat(5 - s)}</div>` : ''}<p>${esc(r.text)}</p></article>`;
+  const time = r.time ? ` &bull; <span>${esc(r.time)}</span>` : '';
+  return `<article class="rev card" role="group" aria-roledescription="slide" aria-label="Review ${i + 1} of ${REVIEWS.length}">
+    <header>
+      <span class="av" aria-hidden="true">${esc(r.name.trim().charAt(0).toUpperCase())}</span>
+      <div>
+        <b>${name}</b>
+        <small class="rev-source">Google review${time}</small>
+      </div>
+      <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3h3.86c2.26-2.09 3.68-5.17 3.68-9.09z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.37 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.37 0 3.26 2.7 1.29 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"/></svg>
+    </header>
+    ${s ? `<div class="stars" role="img" aria-label="${s} out of 5 stars">${'<span class="star">★</span>'.repeat(s)}${'<span class="star star--empty">☆</span>'.repeat(5 - s)}</div>` : ''}
+    <p>${esc(r.text)}</p>
+  </article>`;
 }).join('');
 $('#revsub').textContent = REVIEWS.length ? 'Real reviews from our Google listing.' : 'See what our customers say about us on Google.';
 if (CONFIG.reviewsUrl) { const l = $('#revlink'); l.href = CONFIG.reviewsUrl; l.hidden = false; }
